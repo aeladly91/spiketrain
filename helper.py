@@ -6,7 +6,6 @@ def load_and_shape(filename):
 
     start = data[0][1] # start timepoint
 
-    print(data)
     N = int(max(data[:, 0]) - min(data[:, 0]) + 1) # num neurons
     data = np.array([data[:, 0], data[:, 1] - start]).T # time start at index 0
 
@@ -14,8 +13,6 @@ def load_and_shape(filename):
     for neuron in range(N):
         lens.append(len(data[np.where(data[:, 0] == neuron)][:, 1]))
 
-
-    print(min(lens), max(lens))
     num_fires = min(lens) # number of fires for the neuron with the minimium fires (for cutoff)
     # assert max(lens) - num_fires < 10, 'Min number of neuron fires too low!' # check if significantly different from max neuron so don't cut too much off
     firings = np.zeros((N, num_fires)) # (N, T) np array of firings

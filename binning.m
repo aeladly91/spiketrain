@@ -1,18 +1,8 @@
 data = load('data/spikeTimes_medium.mat');
-d = data.data;
+dbin = data.data;
 dbin = [];
-len = length(d(1,:));
-numneu = length(d(:,1));
-width = 1000;
-bins = len/width;
-for n=1:numneu
-    for m=1:bins
-        dbin(n,m) = sum(d(n,(m-1)*width+1:m*width));
-    end
-end
 
 index = find([dbin(:,:)]>=2) % make sure binning does not double up
-%%
 
 size(dbin)
 numneu = 50;
