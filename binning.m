@@ -3,7 +3,7 @@ data = load('data/spikeTimes_medium.mat');
 dbin = data.data;
 
 index = find([dbin(:,:)]>=2) % make sure binning does not double up
-numneu = 200
+numneu = 50
 
 DImat = zeros(numneu,numneu);
 MImat = zeros(numneu,numneu);
@@ -20,3 +20,5 @@ end
 
 save('data/spikeTimes_medium_DI.mat', 'DImat')
 save('data/spikeTimes_medium_MI.mat', 'MImat')
+
+exit;
