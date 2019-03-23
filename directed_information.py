@@ -61,36 +61,27 @@ def compute_DI(X, Y, Nx, D, start_ratio):
 
     temp= np.tile(px_xy, (Nx,1))
     py_x_xy = np.divide(pxy, temp)
-    print(py_x_xy)
-
-    # E1
-    # temp_DI=  - np.log2( py[ Y[D,end-1]+ [1:Nx:end-Nx+1] ]) +  np.log2(pxy[XY[D,end-1]+[1:Nx^2:end-Nx^2+1]]) - np.log2(px_xy[X(D,end-1)+[1:Nx:end-Nx+1]])
 
     # E4
     temp_DI= np.zeros((1,px.shape[1]))
     for iy in range(1, Nx+1):
        for ix in range(1, Nx+1):
             tmp1 = pxy[ix+(iy-1)*Nx-1,:]
-            tmp2 = np.log2( pxy[ix+(iy-1)*Nx-1,:] )
-            tmp3 = np.multiply( py[iy-1,:], px_xy[ix-1,:] )
-            temp_DI= temp_DI+ np.divide( np.multiply(tmp1, tmp2), tmp3 )
-
+            tmp2 = np.multiply(py[iy-1,:], px_xy[ix-1,:])
+            temp_DI = temp_DI + np.multiply( tmp1, np.log2(np.divide(tmp1,tmp2)) )
     DI = np.cumsum(temp_DI[int(np.floor(n_data*start_ratio)):])
-    DI = np.cumsum(temp_DI)
-    print(int(np.floor(n_data*start_ratio)))
-    print(temp_DI)
     return DI
 
 
 # A = np.random.randint(0,2,10)
 # B = np.random.randint(0,2,10)
-A = np.array([1, 0, 1, 0, 1, 0, 1, 1, 0, 0])
-B = np.array([0, 1, 0, 1, 0, 1, 0, 1, 1, 0])
-Nx = 2
-D = 2
-start_ratio = 0
-
-print(compute_DI(A,B,Nx,D,start_ratio))
+# A = np.array([1, 0, 1, 0, 1, 0, 1, 1, 0, 0])
+# B = np.array([0, 1, 0, 1, 0, 1, 0, 1, 1, 0])
+# Nx = 2
+# D = 2
+# start_ratio = 0
+# DI = compute_DI(A,B,Nx,D,start_ratio)
+# print(DI)
 
 
 
