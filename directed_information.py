@@ -72,7 +72,7 @@ def compute_DI(X, Y, Nx, D, start_ratio):
     DI = np.cumsum(temp_DI[int(np.floor(n_data*start_ratio)):])
     return DI
 
-
+# Example of use
 # A = np.random.randint(0,2,10)
 # B = np.random.randint(0,2,10)
 # A = np.array([1, 0, 1, 0, 1, 0, 1, 1, 0, 0])
