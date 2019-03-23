@@ -48,11 +48,11 @@ def compute_DI(X, Y, Nx, D, start_ratio):
     XY=X+Nx*Y
     n_data = len(X)
 
-    pxy = ctwalgorithm(XY, Nx**2, D)
-    px = ctwalgorithm(X, Nx, D)
-    py = ctwalgorithm(Y, Nx, D)
+    pxy = ctwalgorithm(XY, Nx**2, D)    # 4x8
+    px = ctwalgorithm(X, Nx, D)         # 2x8
+    py = ctwalgorithm(Y, Nx, D)         # 2x8
 
-    px_xy = np.zeros((Nx,n_data))
+    px_xy = np.zeros((Nx,n_data-D))
 
     for i_x in range(1, Nx+1):
         px_xy[i_x-1,:] = pxy[i_x-1,:]
