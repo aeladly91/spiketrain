@@ -1,4 +1,5 @@
 import numpy as np
+import time
 
 ################################################################################
 
@@ -72,16 +73,44 @@ def compute_DI(X, Y, Nx, D, start_ratio):
     DI = np.cumsum(temp_DI[int(np.floor(n_data*start_ratio)):])
     return DI
 
-# Example of use
-# A = np.random.randint(0,2,10)
-# B = np.random.randint(0,2,10)
-# A = np.array([1, 0, 1, 0, 1, 0, 1, 1, 0, 0])
-# B = np.array([0, 1, 0, 1, 0, 1, 0, 1, 1, 0])
-# Nx = 2
-# D = 2
-# start_ratio = 0
-# DI = compute_DI(A,B,Nx,D,start_ratio)
-# print(DI)
+
+#####################
+## Examples of use ##
+#####################
+print()
+Nx = 2
+D = 2
+start_ratio = 0
+
+for i in range(5,100):
+    A = np.random.randint(0,2,i)
+    B = np.random.randint(0,2,i)
+    DI = compute_DI(A,B,Nx,D,start_ratio)
+    print(i)
+
+start = time.time()
+for i in range(100):
+    A = np.random.randint(0,2,1000)
+    B = np.random.randint(0,2,1000)
+    DI = compute_DI(A,B,Nx,D,start_ratio)
+end = time.time()
+print("Took", end-start, "seconds for 1000\n")
+
+A = np.array([1, 0, 1, 0, 1, 0, 1, 1, 0, 0])
+B = np.array([0, 1, 0, 1, 0, 1, 0, 1, 1, 0])
+DI = compute_DI(A,B,Nx,D,start_ratio)
+print(DI, "\n")
+
+A = np.array([1, 0, 1, 0, 1, 0, 1, 0, 1, 0])
+B = np.array([0, 1, 0, 1, 0, 1, 0, 1, 0, 1])
+DI = compute_DI(A,B,Nx,D,start_ratio)
+print(DI, "\n")
+
+A = np.array([0, 1, 0, 1, 0, 1, 0, 1, 0, 1])
+B = np.array([0, 1, 0, 1, 0, 1, 0, 1, 0, 1])
+DI = compute_DI(A,B,Nx,D,start_ratio)
+print(DI, "\n")
+
 
 
 
