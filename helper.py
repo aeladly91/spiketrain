@@ -1,8 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import lzma
+import scipy
 
-def load_and_shape(filename):
-    data = np.load(filename)
+def load_and_shape_varanasi(num_neu):
+    datafname = 'data/spikeTimes_medium.npy'
+    data = np.load(datafname)
 
     start = data[0][1] # start timepoint
 
@@ -19,15 +22,29 @@ def load_and_shape(filename):
     for neuron in range(N):
         firings[neuron] = data[np.where(data[:, 0] == neuron)][:, 1][:num_fires]
 
-    return firings
+    a = np.load('data/spikeTimes_meta/synConnections.npz')
+    adj = np.array(scipy.sparse.csr_matrix((a['data'], a['indices'], a['indptr']), shape=a['shape']).todense())
+
+    return firings[:num_neu], adj[:num_neu, :num_neu]
+
+# loads data, adj matrix
+def load_and_shape_zaytsev(num_neu, num_firings):
+    adjfname = 'data/zaytsev_data/prod-pp-ndt-1000-ai-na-120.00m-1395826618.6076007_J.npy.xz'
+    datafname = 'data/zaytsev_data/prod-pp-ndt-1000-ai-na-120.00m-1395826618.6076007.gdf.xz'
+
+    data = np.fromstring(lzma.open(datafname).read(), sep='\t').reshape(-1, 2)
+    adj = np.load(lzma.open(adjfname))
+
+    firings = np.zeros((num_neu, num_firings))
+    for neuron in range(1, num_neu+1):
+        firings[neuron-1] = (data[np.where(data[:, 0] == neuron)][:, 1])[:num_firings]
+
+    return firings[:num_neu], adj[:num_neu, :num_neu]
 
 # pass in number of neurons to plot
-def plot_events(firings, n):
+def plot_events(firings):
     plt.title('Neuronal Firings')
-    n_samples = firings[np.random.choice(range(1000), n)] # chooses n neurons to sample for plotting
-    plt.eventplot(n_samples)
-    plt.show()
-
+    plt.eventplot(firings)
 
 def print_gap_stats(firings):
     gaps = np.diff(firings)
